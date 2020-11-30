@@ -20,8 +20,7 @@ const NotFound = () => {
             dispatch(push('/'))
           }}
         >
-          {' '}
-          Back to Dashboard
+          Back to Main
         </button>
       </div>
     </div>
