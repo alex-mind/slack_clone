@@ -10,6 +10,7 @@ import React from 'react'
 import cookieParser from 'cookie-parser'
 import config from './config'
 import Html from '../client/html'
+import mongooseService from './services/mongoose'
 
 const Root = () => ''
 
@@ -32,6 +33,8 @@ let connections = []
 const port = process.env.PORT || 8090
 const server = express()
 
+mongooseService.connect()
+
 const middleware = [
   cors(),
   express.static(path.resolve(__dirname, '../dist/assets')),
@@ -42,20 +45,9 @@ const middleware = [
 
 middleware.forEach((it) => server.use(it))
 
-server.get('/api/v1/users/:name', (req, res) => {
-  const { name } = req.params
-  res.json({ name })
-})
-
-server.get('/api/v1/users/quantity/:number', async (req, res) => {
-  const { number } = req.params
-  const { data: users } = await axios('https://jsonplaceholder.typicode.com/users')
-  res.json(users.slice(0, +number))
-})
-
-server.get('/api/v1/users', async (req, res) => {
-  const { data: users } = await axios('https://jsonplaceholder.typicode.com/users')
-  res.json(users)
+server.post('/api/v1/auth', (req, res) => {
+  console.log(req.body)
+  res.json({ status: 'ok' })
 })
 
 const [htmlStart, htmlEnd] = Html({

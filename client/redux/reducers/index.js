@@ -5,6 +5,7 @@ import activeChannel from './active_channel'
 import activeUser from './active_user'
 import inputMessage from './inputMessage'
 import inputChannel from './inputChannel'
+import auth from './auth'
 
 const createRootReducer = (history) =>
   combineReducers({
@@ -13,7 +14,8 @@ const createRootReducer = (history) =>
     activeChannel,
     inputMessage,
     activeUser,
-    inputChannel
+    inputChannel,
+    auth
   })
 
 export default createRootReducer

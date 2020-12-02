@@ -7,7 +7,8 @@ import { Switch, Route, Redirect, StaticRouter } from 'react-router-dom'
 
 import store, { history } from '../redux'
 
-import Chat from '../components/chat'
+import Chat from '../components/Chat'
+import Registration from '../components/Registration'
 import NotFound from '../components/404'
 
 import Startup from './startup'
@@ -72,6 +73,7 @@ const RootComponent = (props) => {
         <Startup>
           <Switch>
             <Route exact path="/" component={() => <Chat />} />
+            <Route exact path="/registration" component={() => <Registration />} />
             <PrivateRoute exact path="/hidden-route" component={() => <Chat />} />
             <Route component={() => <NotFound />} />
           </Switch>
