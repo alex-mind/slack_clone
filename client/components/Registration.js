@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import cn from 'classnames'
 import { updatePasswordForm, updateLoginForm } from '../redux/reducers/auth'
+import { history } from '../redux'
 
 const Registration = () => {
   const dispatch = useDispatch()
@@ -10,10 +12,32 @@ const Registration = () => {
   const [passwordCheck, setPasswordCheck] = useState('')
   const [samePass, setSamePass] = useState(true)
 
+  const { login } = useSelector((s) => s.auth)
+
+  const register = () => {
+    console.log('asld')
+    fetch('/api/v1/registration', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login,
+        password
+      })
+    })
+    dispatch(updatePasswordForm(''))
+    dispatch(updateLoginForm(''))
+    setPassword('')
+
+    history.push('/')
+  }
+
   const onClick = () => {
     if (password === passwordCheck) {
       dispatch(updatePasswordForm(password))
       setSamePass(true)
+      register()
     } else {
       setSamePass(false)
     }
@@ -184,9 +208,8 @@ const Registration = () => {
             </form>
           </div>
           <div className="flex justify-center items-center mt-6">
-            <a
-              href="#"
-              target="_blank"
+            <Link
+              to='/'
               className="inline-flex items-center font-bold text-orange-500 hover:text-orange-700 text-xs text-center"
             >
               <span>
@@ -202,8 +225,8 @@ const Registration = () => {
                   <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                 </svg>
               </span>
-              <span className="ml-2">Maybe you already have an account?</span>
-            </a>
+              <span className="ml-2" >Maybe you already have an account?</span>
+            </Link>
           </div>
         </div>
       </div>

@@ -7,8 +7,9 @@ import { Switch, Route, Redirect, StaticRouter } from 'react-router-dom'
 
 import store, { history } from '../redux'
 
-import Chat from '../components/Chat'
+import Slack from '../components/Chat'
 import Registration from '../components/Registration'
+import Login from '../components/Login'
 import NotFound from '../components/404'
 
 import Startup from './startup'
@@ -72,9 +73,10 @@ const RootComponent = (props) => {
       <RouterSelector history={history} location={props.location} context={props.context}>
         <Startup>
           <Switch>
-            <Route exact path="/" component={() => <Chat />} />
+            <Route exact path="/" component={() => <Login />} />
             <Route exact path="/registration" component={() => <Registration />} />
-            <PrivateRoute exact path="/hidden-route" component={() => <Chat />} />
+            <Route exact path="/slack" component={() => <Slack />} />
+            {/* <PrivateRoute exact path="/hidden-route" component={() => <Chat />} /> */}
             <Route component={() => <NotFound />} />
           </Switch>
         </Startup>

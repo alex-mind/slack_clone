@@ -12,6 +12,10 @@ import config from './config'
 import Html from '../client/html'
 import mongooseService from './services/mongoose'
 
+import User from './model/user.schema'
+
+mongooseService.connect()
+
 const Root = () => ''
 
 try {
@@ -33,8 +37,6 @@ let connections = []
 const port = process.env.PORT || 8090
 const server = express()
 
-mongooseService.connect()
-
 const middleware = [
   cors(),
   express.static(path.resolve(__dirname, '../dist/assets')),
@@ -46,6 +48,17 @@ const middleware = [
 middleware.forEach((it) => server.use(it))
 
 server.post('/api/v1/auth', (req, res) => {
+  console.log(req.body)
+  res.json({ status: 'ok' })
+})
+
+server.post('/api/v1/registration', async (req, res) => {
+  console.log('bjaskndaasdasd')
+  const user = new User({
+    login: req.body.login,
+    password: req.body.password
+  })
+  await user.save()
   console.log(req.body)
   res.json({ status: 'ok' })
 })

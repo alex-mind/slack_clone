@@ -1,5 +1,5 @@
 // import Cookies from 'universal-cookie'
-import { history } from '..'
+// import { history } from '..'
 
 const UPDATE_LOGIN = 'UPDATE_LOGIN'
 const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
@@ -10,7 +10,7 @@ const LOGIN = 'LOGIN'
 const initialState = {
   login: '',
   password: '',
-  token: cookies.get('token'),
+  // token: cookies.get('token'),
   // user: {}
 }
 
@@ -65,7 +65,7 @@ export function signIn() {
       .then((r) => r.json())
       .then((data) => {
         dispatch({ type: LOGIN, token: data.token })
-        //history.push('/private')
+        // history.push('/private')
       })
   }
 }
