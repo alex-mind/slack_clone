@@ -1,17 +1,17 @@
-// import Cookies from 'universal-cookie'
-// import { history } from '..'
+import Cookies from 'universal-cookie'
+import { history } from '..'
 
 const UPDATE_LOGIN = 'UPDATE_LOGIN'
 const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
 const LOGIN = 'LOGIN'
 
-// const cookies = new Cookies()
+const cookies = new Cookies()
 
 const initialState = {
   login: '',
   password: '',
-  // token: cookies.get('token'),
-  // user: {}
+  token: cookies.get('token'),
+  user: {}
 }
 
 export default (state = initialState, action) => {
@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
         ...state,
         password: '',
         token: action.token,
-        // user: action.user
+        user: action.user
       }
     }
     default:
@@ -64,22 +64,22 @@ export function signIn() {
     })
       .then((r) => r.json())
       .then((data) => {
-        dispatch({ type: LOGIN, token: data.token })
-        // history.push('/private')
+        dispatch({ type: LOGIN, token: data.token, user: data.user })
+        history.push('/slack')
       })
   }
 }
 
-// export function trySignIn() {
-//   return (dispatch) => {
-//     fetch('/api/v1/auth')
-//       .then((r) => r.json())
-//       .then((data) => {
-//         dispatch({ type: LOGIN, token: data.token, user: data.user })
-//         history.push('/private')
-//       })
-//   }
-// }
+export function trySignIn() {
+  return (dispatch) => {
+    fetch('/api/v1/auth')
+      .then((r) => r.json())
+      .then((data) => {
+        dispatch({ type: LOGIN, token: data.token, user: data.user })
+        history.push('/slack')
+      })
+  }
+}
 
 // export function tryGetUserInfo() {
 //   return () => {

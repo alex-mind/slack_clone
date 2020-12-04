@@ -7,7 +7,6 @@ import { history } from '../redux'
 
 const Registration = () => {
   const dispatch = useDispatch()
-  const [toggled, toggle] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordCheck, setPasswordCheck] = useState('')
   const [samePass, setSamePass] = useState(true)
@@ -27,7 +26,6 @@ const Registration = () => {
       })
     })
     dispatch(updatePasswordForm(''))
-    dispatch(updateLoginForm(''))
     setPassword('')
 
     history.push('/')
@@ -50,9 +48,9 @@ const Registration = () => {
         href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css"
       />
 
-      <div className="min-h-screen flex flex-col items-center justify-center bg-orange-200">
-        <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
-          <div className="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-orange-300">
+        <div className="flex flex-col bg-orange-200 shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
+          <div className="font-medium self-center text-2xl sm:text-2xl uppercase text-orange-700">
             Create an Account
           </div>
           <div className="mt-10">
@@ -84,7 +82,7 @@ const Registration = () => {
                     type="username"
                     name="username"
                     className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-orange-400"
-                    placeholder="Your awesome username"
+                    placeholder="New awesome username"
                     onChange={({ target: { value } }) => dispatch(updateLoginForm(value))}
                   />
                 </div>
@@ -125,63 +123,57 @@ const Registration = () => {
                     )}
                     placeholder="New password"
                     onChange={({ target: { value } }) => {
-                      if (value.length > 0) {
-                        toggle(true)
-                      }
                       setPassword(value)
                     }}
                   />
                 </div>
               </div>
-
-              {toggled && (
-                <div className="flex flex-col mb-6">
-                  <label
-                    forHTML="password"
-                    className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
-                  >
-                    Repeat your cool password:
-                  </label>
-                  <div className="relative">
-                    <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
-                      <span>
-                        <svg
-                          className="h-6 w-6"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                      </span>
-                    </div>
-
-                    <input
-                      onChange={({ target: { value } }) => {
-                        setPasswordCheck(value)
-                      }}
-                      id="password"
-                      type="password"
-                      name="password"
-                      className={cn(
-                        'text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-orange-400',
-                        {
-                          'border-red-400 focus:border-orange-400': !samePass
-                        }
-                      )}
-                      placeholder="New password"
-                    />
-                  </div>
-                  {!samePass && (
-                    <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                      Passwords don&apos;t match !
+              <div className="flex flex-col mb-6">
+                <label
+                  forHTML="password"
+                  className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
+                >
+                  Repeat your cool password:
+                </label>
+                <div className="relative">
+                  <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
+                    <span>
+                      <svg
+                        className="h-6 w-6"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
                     </span>
-                  )}
+                  </div>
+
+                  <input
+                    onChange={({ target: { value } }) => {
+                      setPasswordCheck(value)
+                    }}
+                    id="password"
+                    type="password"
+                    name="password"
+                    className={cn(
+                      'text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-orange-400',
+                      {
+                        'border-red-400 focus:border-orange-400': !samePass
+                      }
+                    )}
+                    placeholder="Repeat password"
+                  />
                 </div>
-              )}
+                {!samePass && (
+                  <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                    Passwords don&apos;t match !
+                  </span>
+                )}
+              </div>
 
               <div className="flex w-full">
                 <button
@@ -209,7 +201,7 @@ const Registration = () => {
           </div>
           <div className="flex justify-center items-center mt-6">
             <Link
-              to='/'
+              to="/"
               className="inline-flex items-center font-bold text-orange-500 hover:text-orange-700 text-xs text-center"
             >
               <span>
@@ -225,7 +217,7 @@ const Registration = () => {
                   <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                 </svg>
               </span>
-              <span className="ml-2" >Maybe you already have an account?</span>
+              <span className="ml-2">You already have an account?</span>
             </Link>
           </div>
         </div>

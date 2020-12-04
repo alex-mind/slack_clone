@@ -6,11 +6,11 @@ import { newMessage } from '../../../redux/reducers/channels'
 const MessageInput = ({ activeChannelName }) => {
   const dispatch = useDispatch()
   const { inputMessage } = useSelector((s) => s.inputMessage)
-  const { activeUser } = useSelector((s) => s.activeUser)
+  const { login } = useSelector((s) => s.auth)
   const onClick = () => {
     const text = inputMessage
     if (text) {
-      dispatch(newMessage(activeChannelName, activeUser, text))
+      dispatch(newMessage(activeChannelName, login, text))
       dispatch(updateMessage(''))
     }
   }

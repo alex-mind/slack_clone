@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { Switch, Route, Redirect, StaticRouter } from 'react-router-dom'
 
@@ -15,9 +15,10 @@ import NotFound from '../components/404'
 import Startup from './startup'
 
 const OnlyAnonymousRoute = ({ component: Component, ...rest }) => {
+  const { user, token } = useSelector(s => s.auth)
   const func = (props) =>
-    !!rest.user && !!rest.user.name && !!rest.token ? (
-      <Redirect to={{ pathname: '/' }} />
+    !!user && !!token ? (
+      <Redirect to={{ pathname: '/slack' }} />
     ) : (
       <Component {...props} />
     )
@@ -25,13 +26,14 @@ const OnlyAnonymousRoute = ({ component: Component, ...rest }) => {
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
+  const { user, token } = useSelector(s => s.auth)
   const func = (props) =>
-    !!rest.user && !!rest.user.name && !!rest.token ? (
+    !!user && !!token ? (
       <Component {...props} />
     ) : (
       <Redirect
         to={{
-          pathname: '/login'
+          pathname: '/'
         }}
       />
     )
@@ -73,10 +75,9 @@ const RootComponent = (props) => {
       <RouterSelector history={history} location={props.location} context={props.context}>
         <Startup>
           <Switch>
-            <Route exact path="/" component={() => <Login />} />
-            <Route exact path="/registration" component={() => <Registration />} />
-            <Route exact path="/slack" component={() => <Slack />} />
-            {/* <PrivateRoute exact path="/hidden-route" component={() => <Chat />} /> */}
+            <OnlyAnonymousRoute exact path="/registration" component={() => <Registration />} />
+            <OnlyAnonymousRoute exact path="/" component={() => <Login />} />
+            <PrivateRoute exact path="/slack" component={() => <Slack />} />
             <Route component={() => <NotFound />} />
           </Switch>
         </Startup>
