@@ -8,6 +8,7 @@ import { updateLoginForm, updatePasswordForm, signIn } from '../redux/reducers/a
 const Login = () => {
   const dispatch = useDispatch()
   const { login, password } = useSelector((s) => s.auth)
+
   return (
     <div className="w-full h-screen flex ">
       <img
@@ -39,7 +40,7 @@ const Login = () => {
               name="username"
               value={login}
               className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-orange-400"
-              placeholder="Your awesome username"
+              placeholder="Username"
               onChange={({ target: { value } }) => dispatch(updateLoginForm(value))}
             />
           </div>
@@ -66,10 +67,12 @@ const Login = () => {
                 type="password"
                 name="password"
                 value={password}
-                className={cn(
-                  'text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-orange-400'
-                )}
-                placeholder="New password"
+                className={
+                  (cn(
+                    'text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-orange-400'
+                  ))
+                }
+                placeholder="Password"
                 onChange={({ target: { value } }) => {
                   dispatch(updatePasswordForm(value))
                 }}

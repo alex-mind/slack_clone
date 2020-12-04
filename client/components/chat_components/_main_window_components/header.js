@@ -5,9 +5,9 @@ import { leaveChannel } from '../../../redux/reducers/channels'
 
 const Header = ({ activeChannelName }) => {
   const dispatch = useDispatch()
-  const { activeUser } = useSelector(s => s.activeUser)
+  const { login } = useSelector(s => s.auth)
   const onClick = () => {
-    dispatch(leaveChannel(activeChannelName, activeUser))
+    dispatch(leaveChannel(activeChannelName, login))
     dispatch(setActiveChannel(''))
   }
   return (

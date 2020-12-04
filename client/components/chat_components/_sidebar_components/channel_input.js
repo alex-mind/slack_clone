@@ -7,18 +7,18 @@ import { updateChannel } from '../../../redux/reducers/inputChannel'
 const ChannelInput = ({ toggle, toggled }) => {
   const dispatch = useDispatch()
   const { inputChannel } = useSelector((s) => s.inputChannel)
-  const { activeUser } = useSelector((s) => s.activeUser)
+  const { login } = useSelector((s) => s.auth)
   const onClick = () => {
     if (inputChannel) {
       const channel = inputChannel.toString()
-      dispatch(addChannel(channel, activeUser))
-      dispatch(joinChannel(channel, activeUser))
+      dispatch(addChannel(channel, login))
+      dispatch(joinChannel(channel, login))
       dispatch(setActiveChannel(channel))
       dispatch(updateChannel(''))
       toggle(!toggled)
     }
   }
-  
+
   const inputRef = useRef(null)
   useEffect(() => {
     if (toggled) {

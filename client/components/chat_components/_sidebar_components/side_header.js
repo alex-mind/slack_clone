@@ -3,16 +3,16 @@ import { useSelector } from 'react-redux'
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
 
 const SidebarHeader = () => {
-  const { activeUser } = useSelector(s => s.activeUser)
+  const { login } = useSelector(s => s.auth)
   return (
     <div className="text-black mb-2 mt-3 px-4 flex justify-between">
       <div className="flex-auto">
-        <h1 className="font-semibold text-xl font-serif leading-tight mb-1 truncate">
+        <h1 className="font-semibold text-2xl font-serif leading-tight mb-1 truncate">
           Slack clone
         </h1>
         <div className="flex items-center mb-6">
           <span className="bg-green-700 rounded-full block w-2 h-2 mr-2" />
-          <span className="text-black opacity-60 text-sm">{activeUser}</span>
+          <span className="text-black opacity-60 text-sm">{login}</span>
         </div>
       </div>
       <QuestionAnswerIcon />

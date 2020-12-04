@@ -8,7 +8,7 @@ import ChannelInput from './channel_input'
 const Channels = () => {
   const dispatch = useDispatch()
   const { activeChannelName } = useSelector((s) => s.activeChannel)
-  const { activeUser } = useSelector(s => s.activeUser)
+  const { login } = useSelector(s => s.auth)
   const channels = useSelector((s) => s.channels)
   const [toggled, toggle] = useState(false)
 
@@ -38,7 +38,7 @@ const Channels = () => {
             role="presentation"
             onClick={() => {
               dispatch(setActiveChannel(channel))
-              dispatch(joinChannel(channel, activeUser))
+              dispatch(joinChannel(channel, login))
             }}
           >
             # {channel}

@@ -15,10 +15,6 @@ const initialState = {
         meta: {}
       }
     ]
-  },
-  porn: {
-    listOfUsers: ['Discord Mod'],
-    listOfMessages: []
   }
 }
 

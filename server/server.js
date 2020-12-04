@@ -6,13 +6,15 @@ import bodyParser from 'body-parser'
 import sockjs from 'sockjs'
 import { renderToStaticNodeStream } from 'react-dom/server'
 import React from 'react'
-
 import cookieParser from 'cookie-parser'
+import passport from 'passport'
+import jwt from 'jsonwebtoken'
+
 import config from './config'
 import Html from '../client/html'
 import mongooseService from './services/mongoose'
-
 import User from './model/user.schema'
+import passportJWT from './services/passport.js'
 
 mongooseService.connect()
 
@@ -38,6 +40,7 @@ const port = process.env.PORT || 8090
 const server = express()
 
 const middleware = [
+  passport.initialize(),
   cors(),
   express.static(path.resolve(__dirname, '../dist/assets')),
   bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }),
@@ -45,11 +48,22 @@ const middleware = [
   cookieParser()
 ]
 
+passport.use('jwt', passportJWT)
+
 middleware.forEach((it) => server.use(it))
 
-server.post('/api/v1/auth', (req, res) => {
-  console.log(req.body)
-  res.json({ status: 'ok' })
+server.post('/api/v1/auth', async (req, res) => {
+  try {
+    const user = await User.findAndValidateUser(req.body)
+    const payload = { uid: user.id }
+    const token = jwt.sign(payload, config.secret, { expiresIn: '48h' })
+    delete user.password
+    res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 48 })
+    res.json({ status: 'ok', token, user })
+  } catch (err) {
+    console.log(err)
+    res.json({ status: 'error', err })
+  }
 })
 
 server.post('/api/v1/registration', async (req, res) => {
@@ -61,6 +75,21 @@ server.post('/api/v1/registration', async (req, res) => {
   await user.save()
   console.log(req.body)
   res.json({ status: 'ok' })
+})
+
+server.get('/api/v1/auth', async (req, res) => {
+  try {
+    const jwtUser = jwt.verify(req.cookies.token, config.secret)
+    const user = await User.findById(jwtUser.uid)
+    const payload = { uid: user.id }
+    const token = jwt.sign(payload, config.secret, { expiresIn: '48h' })
+    delete user.password
+    res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 48 })
+    res.json({ status: 'ok', token, user })
+  } catch (err) {
+    console.log(err)
+    res.json({ status: 'error', err })
+  }
 })
 
 const [htmlStart, htmlEnd] = Html({
